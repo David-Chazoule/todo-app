@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import TodoList from "./TodoList";
 
 function Main() {
+  const [light, setLight] = useState(true);
+  const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = () => {
+    if (todo.trim() !== "") {
+      setTodos([...todos, todo]);
+    }
+  };
+
+  console.log(todos);
   return (
-    <div className="main_container">
-      <div className="header_container">
-        <Header />
+    <div className={`main_container ${light ? "lightMain" : "darkMain"}`}>
+      <div
+        className={`header_container ${light ? "lightHeader" : "darkHeader"}`}
+      >
+        <Header
+          light={light}
+          setLight={setLight}
+          todo={todo}
+          setTodo={setTodo}
+          addTodo={addTodo}
+        />
       </div>
       <div className="todolist_container">
-        <TodoList />
+        <TodoList light={light} todos={todos} setTodos={setTodos} />
       </div>
       <footer>
         <p>Drag and drop to rearder list</p>

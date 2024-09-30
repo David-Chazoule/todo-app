@@ -3,12 +3,57 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+
   width: 50%;
-  span {
+  border-radius: 5px;
+  box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
+
+  .todo-box {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid $LightGrayishBlue;
+
+    .todo {
+      display: flex;
+      width: 80%;
+      align-items: center;
+      cursor: pointer;
+
+      text-align: center;
+      padding: 10px;
+
+      .circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid $LightGrayishBlue;
+        margin: 0px 8px;
+      }
+
+      p {
+        margin: 0 8px;
+        text-align: center;
+      }
+
+      .light {
+        color: $VeryDarkGrayishBlue;
+      }
+
+      .dark {
+        color: $LightGrayishBlue;
+      }
+    }
+    .cross {
+      width: 14px;
+      height: 14px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
   }
 
   .filter_container {
@@ -16,24 +61,43 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-
+    padding: 8px 0;
     .items {
       font-size: 12px;
+      margin-left: 20px;
+      font-weight: 700;
+      color: $DarkGrayishBlue;
+      cursor: pointer;
     }
 
     .filter-type {
       display: flex;
-      width: 100%;
+      width: 70%;
       align-items: center;
       justify-content: center;
 
       p {
         font-size: 12px;
         margin: 6px;
+        font-weight: 700;
+        color: $DarkGrayishBlue;
+        cursor: pointer;
       }
     }
     .clear {
       font-size: 12px;
+      font-weight: 700;
+      color: $DarkGrayishBlue;
+      margin-right: 20px;
+      cursor: pointer;
     }
   }
+}
+
+.lightTodolist {
+  background-color: $VeryLightGray;
+}
+
+.darkTodolist {
+  background-color: $VeryDarkGrayishBlue;
 }
