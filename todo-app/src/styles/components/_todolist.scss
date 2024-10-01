@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   width: 50%;
   border-radius: 5px;
   box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
@@ -23,16 +22,29 @@
       width: 80%;
       align-items: center;
       cursor: pointer;
-
       text-align: center;
       padding: 10px;
 
-      .circle {
-        width: 16px;
-        height: 16px;
+      .checker {
+        width: 1.5em;
+        height: 1.5em;
+        background-color: white;
         border-radius: 50%;
-        border: 1px solid $LightGrayishBlue;
-        margin: 0px 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: $VeryLightGray;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .checker:checked {
+        background-image: url("../images/icon-check.svg"),
+          linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+        background-position: center;
+        background-repeat: no-repeat;
+        border: none;
       }
 
       p {

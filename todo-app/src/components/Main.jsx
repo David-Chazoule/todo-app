@@ -9,9 +9,18 @@ function Main() {
 
   const addTodo = () => {
     if (todo.trim() !== "") {
-      setTodos([...todos, todo]);
+      const newTodo = {
+        text: todo,
+        completed: false,
+      };
+
+      setTodos([...todos, newTodo]);
+
+      setTodo("");
     }
   };
+
+ 
 
   console.log(todos);
   return (
