@@ -3,38 +3,55 @@ import cross from "../styles/images/icon-cross.svg";
 
 function TodoList({ light, todos, setTodos }) {
   const [filter, setFilter] = useState("all");
+  const [selectedFilter, setSelectedFilter] = useState("all");
 
+  const [hoveredId, setHoveredId] = useState(null);
+
+  // Function to remove a todo item from the list
   const removeTodo = (toDoRemove) => {
     setTodos(todos.filter((todo) => todo.text !== toDoRemove.text));
   };
 
+  // Function to toggle the completion state of a todo item
   const toggleComplete = (todo) => {
     setTodos(
       todos.map((t) =>
         t.text === todo.text ? { ...t, completed: !t.completed } : t
       )
-    );
+    ); // Update the todos array, toggling the 'completed' property of the matching todo
   };
 
+  // Filter todos based on the selected filter
   const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed;
-    if (filter === "completed") return todo.completed;
-    return true;
+    if (filter === "active") return !todo.completed; // Return only active todos
+    if (filter === "completed") return todo.completed; // Return only completed todos
+    return true; // Return all todos if the filter is 'all'
   });
 
+  // Function to remove all completed todos
   const removeCompleted = () => {
     setTodos(todos.filter((todo) => !todo.completed));
   };
 
-  console.log(todos, "todos");
+  // Function to handle the click event on filter buttons
+  const handlefilterClick = (newfilter) => {
+    setFilter(newfilter);
+    setSelectedFilter(newfilter);
+  };
+
   return (
-    <url className={`todolist-box ${light ? "lightTodolist" : "darkTodolist"}`}>
-      {filteredTodos.map((item, key) => (
-        <li className="todo-box" key={key}>
+    <ul className={`todolist-box ${light ? "lightTodolist" : "darkTodolist"}`}>
+      {filteredTodos.map((item) => (
+        <li
+          className="todo-box"
+          key={item.id}
+          onMouseEnter={() => setHoveredId(item.id)}
+          onMouseLeave={() => setHoveredId(null)}
+        >
           <span className="todo">
             <input
               type="checkbox"
-              className="checker"
+              className={`checker ${light ? "" : "darkChecker"}`}
               checked={item.completed}
               onChange={() => toggleComplete(item)}
             />
@@ -43,16 +60,20 @@ function TodoList({ light, todos, setTodos }) {
               style={{
                 textDecoration: item.completed ? "line-through" : "none",
               }}
+              onClick={() => toggleComplete(item)}
             >
               {item.text}
             </p>
           </span>
-          <img
-            className="cross"
-            src={cross}
-            alt="cross-logo"
-            onClick={() => removeTodo(item)}
-          />
+
+          {hoveredId === item.id && (
+            <img
+              className="cross"
+              src={cross}
+              alt="cross-logo"
+              onClick={() => removeTodo(item)}
+            />
+          )}
         </li>
       ))}
 
@@ -66,16 +87,37 @@ function TodoList({ light, todos, setTodos }) {
         </p>
 
         <span className="filter-type">
-          <p onClick={() => setFilter("all")}>All</p>
-          <p onClick={() => setFilter("active")}>Active</p>
-          <p onClick={() => setFilter("completed")}>Completed</p>
+          <button
+            className={`${selectedFilter === "all" ? "selected" : ""} ${
+              light ? "" : "btnDark"
+            }`}
+            onClick={() => handlefilterClick("all")}
+          >
+            All
+          </button>
+          <button
+            className={`${selectedFilter === "active" ? "selected" : ""} ${
+              light ? "" : "btnDark"
+            }`}
+            onClick={() => handlefilterClick("active")}
+          >
+            Active
+          </button>
+          <button
+            className={`${selectedFilter === "completed" ? "selected" : ""} ${
+              light ? "" : "btnDark"
+            }`}
+            onClick={() => handlefilterClick("completed")}
+          >
+            Completed
+          </button>
         </span>
 
-        <p className="clear" onClick={removeCompleted}>
+        <button className="clear" onClick={removeCompleted}>
           Clear completed
-        </p>
+        </button>
       </div>
-    </url>
+    </ul>
   );
 }
 

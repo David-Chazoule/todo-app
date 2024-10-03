@@ -10,6 +10,7 @@ function Main() {
   const addTodo = () => {
     if (todo.trim() !== "") {
       const newTodo = {
+        id: Date.now(),
         text: todo,
         completed: false,
       };
@@ -20,9 +21,6 @@ function Main() {
     }
   };
 
- 
-
-  console.log(todos);
   return (
     <div className={`main_container ${light ? "lightMain" : "darkMain"}`}>
       <div

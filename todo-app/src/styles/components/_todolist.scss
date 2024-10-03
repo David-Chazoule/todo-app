@@ -3,12 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 760px;
   border-radius: 5px;
   box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
-
+  list-style: none;
+  padding-left: 0;
   .todo-box {
     width: 100%;
     display: flex;
@@ -37,6 +38,15 @@
         background-color: $VeryLightGray;
         outline: none;
         cursor: pointer;
+
+        &:hover {
+          border: 1px solid
+            linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+        }
+      }
+
+      .darkChecker {
+        background-color: $VeryDarkGrayishBlue;
       }
 
       .checker:checked {
@@ -75,9 +85,9 @@
     width: 100%;
     padding: 8px 0;
     .items {
-      font-size: 12px;
-      margin-left: 20px;
-      font-weight: 700;
+      font-size: 14px;
+      margin: 0 0 0 20px;
+      font-weight: 400;
       color: $DarkGrayishBlue;
       cursor: pointer;
     }
@@ -88,20 +98,56 @@
       align-items: center;
       justify-content: center;
 
-      p {
-        font-size: 12px;
+      button {
+        font-size: 14px;
         margin: 6px;
-        font-weight: 700;
+        font-weight: 400;
         color: $DarkGrayishBlue;
         cursor: pointer;
+        background-color: transparent;
+        font-family: $font;
+        border: none;
+
+        &:hover {
+          font-weight: 900;
+        }
+      }
+      .selected {
+        color: $BrightBlue;
+
+        &:hover {
+          color: $BrightBlue;
+          font-weight: 400;
+        }
+      }
+
+      .btnDark {
+        &:hover {
+          color: $LightGrayishBlue;
+        }
+      }
+
+      &.selected {
+        &:hover {
+          color: $DarkGrayishBlue;
+          font-weight: 400;
+        }
       }
     }
+
     .clear {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 400;
       color: $DarkGrayishBlue;
-      margin-right: 20px;
+      margin: 0 20px 0 0;
       cursor: pointer;
+      background-color: transparent;
+      border: none;
+      font-family: $font;
+
+      &:hover {
+        font-weight: 900;
+      }
     }
   }
 }

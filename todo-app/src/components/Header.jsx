@@ -2,6 +2,7 @@ import React from "react";
 import sun from "../styles/images/icon-sun.svg";
 import moon from "../styles/images/icon-moon.svg";
 function Header({ light, setLight, todo, setTodo, addTodo }) {
+  
   const handleTheme = () => {
     setLight(!light);
   };
