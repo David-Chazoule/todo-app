@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import cross from "../styles/images/icon-cross.svg";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function TodoList({ light, todos, setTodos }) {
   const [filter, setFilter] = useState("all");
@@ -39,85 +40,162 @@ function TodoList({ light, todos, setTodos }) {
     setSelectedFilter(newfilter);
   };
 
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+    if (!destination) return;
+
+    const newTodos = Array.from(filteredTodos);
+    const [movedTodo] = newTodos.splice(source.index, 1);
+    newTodos.splice(destination.index, 0, movedTodo);
+
+    setTodos(newTodos);
+  };
+
   return (
-    <ul className={`todolist-box ${light ? "lightTodolist" : "darkTodolist"}`}>
-      {filteredTodos.map((item) => (
-        <li
-          className="todo-box"
-          key={item.id}
-          onMouseEnter={() => setHoveredId(item.id)}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <span className="todo">
-            <input
-              type="checkbox"
-              className={`checker ${light ? "" : "darkChecker"}`}
-              checked={item.completed}
-              onChange={() => toggleComplete(item)}
-            />
-            <p
-              className={light ? "light" : "dark"}
-              style={{
-                textDecoration: item.completed ? "line-through" : "none",
-              }}
-              onClick={() => toggleComplete(item)}
+    <>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="todos">
+          {(provided) => (
+            <ul
+              className={`todolist-box ${
+                light ? "lightTodolist" : "darkTodolist"
+              }`}
+              ref={provided.innerRef}
             >
-              {item.text}
-            </p>
-          </span>
+              {filteredTodos.map((item) => (
+                <li
+                  className={`todo-box ${light ? "" : "todo-boxDark"}`}
+                  key={item.id}
+                  onMouseEnter={() => setHoveredId(item.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <span className="todo">
+                    <input
+                      type="checkbox"
+                      className={`checker ${light ? "" : "darkChecker"}`}
+                      checked={item.completed}
+                      onChange={() => toggleComplete(item)}
+                    />
+                    <p
+                      className={`${light ? "light" : "dark"} ${
+                        item.completed
+                          ? light
+                            ? "completed-light"
+                            : "completed-dark"
+                          : ""
+                      }`}
+                      style={{
+                        textDecoration: item.completed
+                          ? "line-through"
+                          : "none",
+                      }}
+                      onClick={() => toggleComplete(item)}
+                    >
+                      {item.text}
+                    </p>
+                  </span>
 
-          {hoveredId === item.id && (
-            <img
-              className="cross"
-              src={cross}
-              alt="cross-logo"
-              onClick={() => removeTodo(item)}
-            />
+                  {hoveredId === item.id && (
+                    <img
+                      className="cross"
+                      src={cross}
+                      alt="cross-logo"
+                      onClick={() => removeTodo(item)}
+                    />
+                  )}
+                </li>
+              ))}
+
+              <div className="filter_container">
+                <p className="items">
+                  {todos.length <= 0
+                    ? " 0 item left"
+                    : todos.length === 1
+                    ? "1 item left"
+                    : todos.length + " items left"}{" "}
+                </p>
+
+                <span className="filter-type">
+                  <button
+                    className={`${selectedFilter === "all" ? "selected" : ""} ${
+                      light ? "" : "btnDark"
+                    }`}
+                    onClick={() => handlefilterClick("all")}
+                  >
+                    All
+                  </button>
+                  <button
+                    className={`${
+                      selectedFilter === "active" ? "selected" : ""
+                    } ${light ? "" : "btnDark"}`}
+                    onClick={() => handlefilterClick("active")}
+                  >
+                    Active
+                  </button>
+                  <button
+                    className={`${
+                      selectedFilter === "completed" ? "selected" : ""
+                    } ${light ? "" : "btnDark"}`}
+                    onClick={() => handlefilterClick("completed")}
+                  >
+                    Completed
+                  </button>
+                </span>
+
+                <button className="clear" onClick={removeCompleted}>
+                  Clear completed
+                </button>
+              </div>
+
+              <div className="filter_container-mobile">
+                <div>
+                  <p className="items">
+                    {todos.length <= 0
+                      ? " 0 item left"
+                      : todos.length === 1
+                      ? "1 item left"
+                      : todos.length + " items left"}{" "}
+                  </p>
+
+                  <button className="clear" onClick={removeCompleted}>
+                    Clear completed
+                  </button>
+                </div>
+              </div>
+            </ul>
           )}
-        </li>
-      ))}
+        </Droppable>
+      </DragDropContext>
 
-      <div className="filter_container">
-        <p className="items">
-          {todos.length <= 0
-            ? " 0 item left"
-            : todos.length === 1
-            ? "1 item left"
-            : todos.length + " items left"}{" "}
-        </p>
-
-        <span className="filter-type">
-          <button
-            className={`${selectedFilter === "all" ? "selected" : ""} ${
-              light ? "" : "btnDark"
-            }`}
-            onClick={() => handlefilterClick("all")}
-          >
-            All
-          </button>
-          <button
-            className={`${selectedFilter === "active" ? "selected" : ""} ${
-              light ? "" : "btnDark"
-            }`}
-            onClick={() => handlefilterClick("active")}
-          >
-            Active
-          </button>
-          <button
-            className={`${selectedFilter === "completed" ? "selected" : ""} ${
-              light ? "" : "btnDark"
-            }`}
-            onClick={() => handlefilterClick("completed")}
-          >
-            Completed
-          </button>
-        </span>
-
-        <button className="clear" onClick={removeCompleted}>
-          Clear completed
+      <span
+        className={`filter-type-mobile ${light ? "filterLight" : "filterDark"}`}
+      >
+        <button
+          className={`${selectedFilter === "all" ? "selected" : ""} ${
+            light ? "" : "btnDark"
+          }`}
+          onClick={() => handlefilterClick("all")}
+        >
+          All
         </button>
-      </div>
-    </ul>
+        <button
+          className={`${selectedFilter === "active" ? "selected" : ""} ${
+            light ? "" : "btnDark"
+          }`}
+          onClick={() => handlefilterClick("active")}
+        >
+          Active
+        </button>
+        <button
+          className={`${selectedFilter === "completed" ? "selected" : ""} ${
+            light ? "" : "btnDark"
+          }`}
+          onClick={() => handlefilterClick("completed")}
+        >
+          Completed
+        </button>
+      </span>
+    </>
   );
 }
 

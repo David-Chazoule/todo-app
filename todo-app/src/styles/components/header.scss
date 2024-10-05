@@ -10,10 +10,24 @@
     width: 760px;
     align-items: center;
     justify-content: space-between;
+   
 
+    @media screen and (max-width: 780px) {
+      width: 600px;
+    }
+
+    @media screen and (max-width: 620px) {
+      width: 90%;
+      margin-bottom: 40px;
+    }
     h1 {
       color: white;
-      letter-spacing: 10px;
+      letter-spacing: 14px;
+
+      @media screen and (max-width: 620px) {
+       
+        font-size: 28px;
+      }
     }
 
     img {
@@ -25,6 +39,14 @@
     display: flex;
     width: 760px;
     justify-content: center;
+
+    @media screen and (max-width: 780px) {
+      width: 600px;
+    }
+
+    @media screen and (max-width: 620px) {
+      width: 90%;
+    }
 
     span {
       display: flex;
@@ -43,6 +65,10 @@
         height: 50px;
         border-radius: 5px;
         border: none;
+
+        &:focus {
+          outline: none;
+        }
       }
 
       .lightInput {
@@ -51,7 +77,7 @@
 
       .darkInput {
         background-color: $VeryDarkGrayishBlue;
-        color: $DarkGrayishBlue;
+        color: $LightGrayishBlue;
       }
     }
 
