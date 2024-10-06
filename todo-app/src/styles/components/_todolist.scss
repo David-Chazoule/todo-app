@@ -1,16 +1,14 @@
 .todolist-box {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  
   width: 760px;
   border-radius: 5px;
   box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 1px 9px 24px -4px rgba(0, 0, 0, 0.75);
-  list-style: none;
-  padding-left: 0;
-
+  
+ 
   @media screen and (max-width: 780px) {
     width: 600px;
   }
@@ -18,6 +16,13 @@
   @media screen and (max-width: 620px) {
     width: 90%;
   }
+
+   ul{
+    align-items: center;
+  justify-content: center;
+
+    list-style: none;
+  padding-left: 0;
   .todo-box {
     width: 100%;
     display: flex;
@@ -110,6 +115,8 @@
       cursor: pointer;
     }
   }
+
+}
 
   .todo-boxDark {
     border-bottom: 1px solid $DarkGrayishBlue;
