@@ -10,7 +10,7 @@ function Main() {
   const addTodo = () => {
     if (todo.trim() !== "") {
       const newTodo = {
-        id: Date.now(),
+        id: Date.now().toString(),
         text: todo,
         completed: false,
       };

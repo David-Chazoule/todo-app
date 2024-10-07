@@ -26,24 +26,23 @@
 
     @media screen and (max-width: 620px) {
       min-height: 26vh;
-     }
+    }
   }
 
   .lightHeader {
     background-image: url(../images/bg-desktop-light.jpg);
-  
+
     @media screen and (max-width: 620px) {
-      background-image:  url(../images/bg-mobile-light.jpg);
-     }
-  
+      background-image: url(../images/bg-mobile-light.jpg);
+    }
   }
 
   .darkHeader {
     background-image: url(../images/bg-desktop-dark.jpg);
-  
+
     @media screen and (max-width: 620px) {
       background-image: url(../images/bg-mobile-dark.jpg);
-     }
+    }
   }
 
   .todolist_container {
@@ -56,7 +55,7 @@
     height: calc(100vh - 34vh);
 
     @media screen and (max-width: 620px) {
-     top:24vh;
+      top: 24vh;
     }
   }
 

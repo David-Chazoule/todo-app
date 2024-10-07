@@ -41,13 +41,17 @@ function TodoList({ light, todos, setTodos }) {
   };
 
   const onDragEnd = (result) => {
+    // Destructure 'source' and 'destination' from the result object provided by react-beautiful-dnd
     const { source, destination } = result;
+    // If there's no destination (i.e., the item was dropped outside a valid droppable area), exit the function
     if (!destination) return;
-
+    // Create a copy of the filteredTodos array to avoid directly mutating the state
     const newTodos = Array.from(filteredTodos);
+    // Remove the todo item from its original position in the array
     const [movedTodo] = newTodos.splice(source.index, 1);
+    // Insert the removed todo item into its new position at 'destination.index'
     newTodos.splice(destination.index, 0, movedTodo);
-
+    // Update the state with the new reordered list of todos
     setTodos(newTodos);
   };
 
@@ -56,49 +60,65 @@ function TodoList({ light, todos, setTodos }) {
       <div
         className={`todolist-box ${light ? "lightTodolist" : "darkTodolist"}`}
       >
-        <ul>
-          {filteredTodos.map((item) => (
-            <li
-              className={`todo-box ${light ? "" : "todo-boxDark"}`}
-              key={item.id}
-              onMouseEnter={() => setHoveredId(item.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <span className="todo">
-                <input
-                  type="checkbox"
-                  className={`checker ${light ? "" : "darkChecker"}`}
-                  checked={item.completed}
-                  onChange={() => toggleComplete(item)}
-                />
-                <p
-                  className={`${light ? "light" : "dark"} ${
-                    item.completed
-                      ? light
-                        ? "completed-light"
-                        : "completed-dark"
-                      : ""
-                  }`}
-                  style={{
-                    textDecoration: item.completed ? "line-through" : "none",
-                  }}
-                  onClick={() => toggleComplete(item)}
-                >
-                  {item.text}
-                </p>
-              </span>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="todosBox">
+            {(provided) => (
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {filteredTodos.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided) => (
+                      <li
+                        className={`todo-box ${light ? "" : "todo-boxDark"}`}
+                        key={item.id}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        onMouseEnter={() => setHoveredId(item.id)}
+                        onMouseLeave={() => setHoveredId(null)}
+                      >
+                        <span className="todo">
+                          <input
+                            type="checkbox"
+                            className={`checker ${light ? "" : "darkChecker"}`}
+                            checked={item.completed}
+                            onChange={() => toggleComplete(item)}
+                          />
+                          <p
+                            className={`${light ? "light" : "dark"} ${
+                              item.completed
+                                ? light
+                                  ? "completed-light"
+                                  : "completed-dark"
+                                : ""
+                            }`}
+                            style={{
+                              textDecoration: item.completed
+                                ? "line-through"
+                                : "none",
+                            }}
+                            onClick={() => toggleComplete(item)}
+                          >
+                            {item.text}
+                          </p>
+                        </span>
 
-              {hoveredId === item.id && (
-                <img
-                  className="cross"
-                  src={cross}
-                  alt="cross-logo"
-                  onClick={() => removeTodo(item)}
-                />
-              )}
-            </li>
-          ))}
-        </ul>
+                        {hoveredId === item.id && (
+                          <img
+                            className="cross"
+                            src={cross}
+                            alt="cross-logo"
+                            onClick={() => removeTodo(item)}
+                          />
+                        )}
+                      </li>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
         <div className="filter_container">
           <p className="items">
             {todos.length <= 0
